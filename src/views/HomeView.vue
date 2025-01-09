@@ -1,7 +1,17 @@
 <script setup>
-  <h1>Home</h1>
+import Footer from "../components/Footer.vue";
+import Header from "../components/Header.vue";
+import Hero from "../components/Hero.vue";
+import Feature from "../components/Feature.vue";
 </script>
 
 <template>
-  <h1>Home</h1>
+<Header></Header>
+<Hero></Hero>
+<Feature></Feature>
+<Footer></Footer>
 </template>
+
+<style scoped>
+
+</style>
