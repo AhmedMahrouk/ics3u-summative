@@ -18,7 +18,7 @@ const store = useStore()
     <h1 class="welcome-message" v-if="store.email">
       {{ `Hello ${store.firstname} ${store.lastname}!` }}
     </h1>
-    <div v-if="store.email">
+    <div v-if="user.email">
       <RouterLink to="/settings" class="button register">Settings</RouterLink>
       <RouterLink to="/cart" class="button login">Cart</RouterLink>
       <RouterLink to="/" class="button login">Logout</RouterLink>
