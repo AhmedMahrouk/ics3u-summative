@@ -13,7 +13,7 @@ const store = useStore();
 <div class="cart">
   <h1>Shopping Cart</h1>
   <div class="item" v-for="([key, value]) in store.cart" :key="key">
-    <img :src="`https://image.tmdb.org/t/p/w500${value.url}`" alt="Movie Poster" />
+    <img :src="`https://image.tmdb.org/t/p/w500${value.url}`"/>
     <h1>{{ value.title }}</h1>
     <button @click="store.cart.delete(key)">Remove</button>
   </div>
