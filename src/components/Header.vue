@@ -2,6 +2,12 @@
 import { useStore } from "../store"
 
 const store = useStore()
+
+
+  function $reset() {
+    store.user = 0
+  }
+
 </script>
 
 <template>
@@ -21,7 +27,10 @@ const store = useStore()
     <div v-if="store.user">
       <RouterLink to="/settings" class="button register">Settings</RouterLink>
       <RouterLink to="/cart" class="button login">Cart</RouterLink>
-      <RouterLink to="/" class="button login">Logout</RouterLink>
+      <form @submit.prevent="$reset">
+        <!-- <button @click="$reset()" type="submit"  class="button login">Logout</button> -->
+        <RouterLink to="/" class="button login">Logout</RouterLink>
+      </form>
     </div>
     <div v-else>
       <RouterLink to="/register" class="button register">Register</RouterLink>
