@@ -14,6 +14,14 @@ const router = useRouter();
 const store = useStore();
 
 async function registerByEmail() {
+  if (password.value !== confirmPassword.value) {
+    alert("Passwords do not match!");
+    return;
+  }
+  if (password.value.length < 6) {
+    alert("Password must be at least 6 characters long!");
+    return;
+  }
   try {
     const user = (await createUserWithEmailAndPassword(auth, email.value, password.value)).user;
     await updateProfile(user, { displayName: `${firstName.value} ${lastName.value}` });

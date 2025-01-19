@@ -1,6 +1,10 @@
 <script setup>
 import { useStore } from '../store';
 
+import { useUserStore } from '@/stores/user';
+
+const userStore = useUserStore();
+
 import Header from "../components/Header.vue";
 import Footer from "../components/Footer.vue";
 
@@ -8,17 +12,16 @@ const store = useStore();
 </script>
 
 <template>
-<Header></Header>
-<body>
-<div class="cart">
-  <h1>Shopping Cart</h1>
-  <div class="item" v-for="([key, value]) in store.cart" :key="key">
-    <img :src="`https://image.tmdb.org/t/p/w500${value.url}`"/>
-    <h1>{{ value.title }}</h1>
-    <button @click="store.cart.delete(key)">Remove</button>
+  <body>
+  <div class="cart">
+      <h1>Shopping Cart</h1>
+      <div class="item" v-for="([key, value]) in store.cart">
+          <img :src="`https://image.tmdb.org/t/p/w500${value.url}`" />
+          <h1>{{ value.title }}</h1>
+          <button @click="store.cart.delete(key)">Remove</button>
+      </div>
   </div>
-</div>
-</body>
+  </body>
 </template>
 
 <style scoped>

@@ -11,16 +11,26 @@ export const useStore = defineStore('store', () => {
 })
 
 export const userAuthorized = new Promise((resolve, reject) => {
-  onAuthStateChanged(auth, user => {
+  onAuthStateChanged(auth, (user) => {
     try {
       const store = useStore();
       store.user = user;
-      const storedCart = localStorage.getItem(`cart_${store.user?.email}`);
 
+      const storedCart = localStorage.getItem(`cart_${store.user?.email}`);
       store.cart = storedCart ? new Map(Object.entries(JSON.parse(storedCart))) : new Map();
+
+      window.addEventListener("beforeunload", () => {
+        if (store.user) {
+          localStorage.setItem(
+            `cart_${store.user.email}`,
+            JSON.stringify(Object.fromEntries(store.cart))
+          );
+        }
+      });
+
       resolve();
     } catch (error) {
-      reject();
+      reject(error);
     }
-  })
-})
+  });
+});
