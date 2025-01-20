@@ -19,7 +19,7 @@ export const userAuthorized = new Promise((resolve, reject) => {
       const storedCart = localStorage.getItem(`cart_${store.user?.email}`);
       store.cart = storedCart ? new Map(Object.entries(JSON.parse(storedCart))) : new Map();
 
-      window.addEventListener("beforeunload", () => {
+      window.addEventListener("beforeload", () => {
         if (store.user) {
           localStorage.setItem(
             `cart_${store.user.email}`,
