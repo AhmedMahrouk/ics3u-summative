@@ -5,7 +5,6 @@ import { ref, onMounted } from 'vue';
 const response = ref(null);
 const numbers = ref([]);
 
-// Random 3 numbers using a Set
 numbers.value = (() => {
   const set = new Set();
 

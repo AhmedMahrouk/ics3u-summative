@@ -1,28 +1,30 @@
 <script setup>
 import { useStore } from '../store';
-
-import { useUserStore } from '@/stores/user';
-
-const userStore = useUserStore();
-
 import Header from "../components/Header.vue";
-import Footer from "../components/Footer.vue";
 
 const store = useStore();
+
+function clearCart() {
+  store.cart.clear();
+  store.cart = new Map(store.cart);
+}
 </script>
 
 <template>
+  <Header></Header>
   <body>
-  <div class="cart">
+    <div class="cart">
       <h1>Shopping Cart</h1>
-      <div class="item" v-for="([key, value]) in store.cart">
-          <img :src="`https://image.tmdb.org/t/p/w500${value.url}`" />
-          <h1>{{ value.title }}</h1>
-          <button @click="store.cart.delete(key)">Remove</button>
+      <div class="item" v-for="([key, value]) in store.cart" :key="key">
+        <img :src="`https://image.tmdb.org/t/p/w500${value.url}`" />
+        <h1>{{ value.title }}</h1>
+        <button @click="store.cart.delete(key)">Remove</button>
       </div>
-  </div>
+      <button @click="clearCart">Buy</button>
+    </div>
   </body>
 </template>
+
 
 <style scoped>
 /* General page styling */
@@ -91,6 +93,24 @@ body {
   text-align: left;
 }
 
+button {
+  background-color: #503abd; /* Bright red button */
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #7475db; /* Darker red on hover */
+}
+
+button:active {
+  background-color: #61aaca; /* Even darker red on click */
+}
 /* Remove button styling */
 .item button {
   background-color: #e63946; /* Bright red button */
@@ -110,6 +130,7 @@ body {
 .item button:active {
   background-color: #b71d30; /* Even darker red on click */
 }
+
 
 /* Responsive design for smaller screens */
 @media (max-width: 600px) {

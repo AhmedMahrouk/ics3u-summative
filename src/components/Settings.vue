@@ -1,37 +1,50 @@
 <script setup>
-import { useStore } from "../store"
-import { ref } from 'vue';
+import { useStore } from "../store";
+import { ref } from "vue";
+import { updateProfile } from "firebase/auth";
 
-const store = useStore()
-const firstName = ref()
-const lastName = ref()
+const store = useStore();
+const firstName = ref();
+const lastName = ref();
 
-const changeFirstname = () => {
-store.firstname = firstName.value
-};
-const changeLastname = () => {
-store.lastname = lastName.value
+const changeDisplayName = async () => {
+  const fullName = `${firstName.value} ${lastName.value}`;
+
+  const isGoogleUser = store.user.providerData.some(
+    (provider) => provider.providerId === "google.com"
+  );
+
+  if (isGoogleUser) {
+    alert("You cannot change your name as you signed in with Google.");
+    return;
+  }
+
+  if (store.user) {
+    try {
+      await updateProfile(store.user, { displayName: fullName });
+      store.user.displayName = fullName;
+
+      alert("Display name updated successfully!");
+    } catch (error) {
+      console.error(error);
+    }
+  }
 };
 </script>
 
 <template>
-<body>
-<div class="settings-container">
-  <h1>{{ `Email: ${store.email}` }}</h1>
-  <h1>{{ `First Name: ${store.firstname}` }}</h1>
-  <h1>{{ `Last Name: ${store.lastname}` }}</h1>
+  <body>
+    <div class="settings-container">
+      <h1>{{ `Email: ${store.user.email}` }}</h1>
+      <h1>{{ `Name: ${store.user.displayName}` }}</h1>
 
-  <form @submit.prevent="changeFirstname">
-    <input v-model="firstName" type="text" placeholder="First Name" class="input-field" required>
-    <button type="submit" class="button register">Change First Name</button>
-  </form>
-
-  <form @submit.prevent="changeLastname">
-    <input v-model="lastName" type="text" placeholder="Last Name" class="input-field" required>
-    <button type="submit" class="button register">Change Last Name</button>
-  </form>
-</div>
-</body>
+      <form @submit.prevent="changeDisplayName">
+        <input v-model="firstName" type="text" placeholder="First Name" class="input-field" required>
+        <input v-model="lastName" type="text" placeholder="Last Name" class="input-field" required>
+        <button type="submit" class="button register">Change Display Name</button>
+      </form>
+    </div>
+  </body>
 </template>
 
 <style scoped>

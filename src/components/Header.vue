@@ -1,13 +1,25 @@
 <script setup>
 import { useStore } from "../store"
+import { getAuth, signOut } from 'firebase/auth';
+import { useRouter } from 'vue-router'; // Assuming you want to redirect the user after logout
 
+const auth = getAuth();
+const router = useRouter();
 const store = useStore()
 
+const logout = async () => {
+  try {
+    // Sign out from Firebase Authentication
+    await signOut(auth);
+    store.user = 0;
+    console.log('User signed out');
 
-  function $reset() {
-    store.user = 0
+
+    router.push('/'); 
+  } catch (error) {
+    console.error('Error', error);
   }
-
+};
 </script>
 
 <template>
@@ -27,10 +39,7 @@ const store = useStore()
     <div v-if="store.user">
       <RouterLink to="/settings" class="button register">Settings</RouterLink>
       <RouterLink to="/cart" class="button login">Cart</RouterLink>
-      <form @submit.prevent="$reset">
-        <button @click="$reset()" type="submit"  class="button login">Logout</button>
-        <RouterLink to="/" class="button register">sign-mout</RouterLink>
-      </form>
+      <button @click="logout" type="submit" class="button login">Logout</button>
     </div>
     <div v-else>
       <RouterLink to="/register" class="button register">Register</RouterLink>

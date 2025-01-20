@@ -7,7 +7,7 @@ export const useStore = defineStore('store', () => {
   const user = ref(null);
   const cart = ref(new Map());
 
-  return { user, cart }
+  return { user, cart}
 })
 
 export const userAuthorized = new Promise((resolve, reject) => {
